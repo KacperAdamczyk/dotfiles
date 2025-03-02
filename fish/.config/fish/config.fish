@@ -18,4 +18,9 @@ if status is-interactive
     else
         echo "'pnpm' not found"
     end
+
+    set HOMEBREW_BREWFILE_LEAVES 1
+    if test -f (brew --prefix)/etc/brew-wrap.fish
+        source (brew --prefix)/etc/brew-wrap.fish
+    end
 end

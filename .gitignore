@@ -1,2 +1,4 @@
 fish/.config/fish/completions/*.fish
 fish/.config/fish/conf.d/*.fish
+
+brewfile/.config/brewfile/Brewfile.*

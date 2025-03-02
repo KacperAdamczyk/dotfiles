@@ -1,0 +1,20 @@
+
+# tap repositories and their packages
+
+tap homebrew/core
+brew fish
+brew lazygit
+brew neovim
+brew node
+brew pnpm
+brew starship
+brew zellij
+
+tap oven-sh/bun
+brew bun
+
+tap rcmdnk/file
+brew brew-file
+
+# Main file
+main ./Brewfile.$HOSTNAME
