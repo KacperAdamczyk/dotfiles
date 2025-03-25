@@ -1,5 +1,7 @@
 {
   "extras": [
+    "lazyvim.plugins.extras.coding.yanky",
+    "lazyvim.plugins.extras.lang.nushell",
     "lazyvim.plugins.extras.util.chezmoi",
     "lazyvim.plugins.extras.vscode"
   ],
