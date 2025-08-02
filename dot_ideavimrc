@@ -1,0 +1,94 @@
+""" Common settings -------------------------
+set clipboard^=ideaput
+set clipboard^=unnamedplus
+set incsearch
+set notimeout
+set number
+set relativenumber
+set showmode
+set scrolloff=5
+set timeoutlen=5000
+set visualbell
+""" Idea specific settings ------------------
+let mapleader = " "
+let g:WhichKey_ShowVimActions = "true"
+set ideajoin
+
+""" Plugins  --------------------------------
+"set multiple-cursors
+
+set ReplaceWithRegister
+"==============================================================================
+"USAGE						   *ReplaceWithRegister-usage*
+"
+"							     *gr* *grr* *v_gr*
+"[count]["x]gr{motion}	Replace {motion} text with the contents of register x.
+"			Especially when using the unnamed register, this is
+"			quicker than "_d{motion}P or "_c{motion}<C-R>"
+"[count]["x]grr		Replace [count] lines with the contents of register x.
+"			To replace from the cursor position to the end of the
+"			line use ["x]gr$
+"{Visual}["x]gr		Replace the selection with the contents of register x.
+"==============================================================================
+
+set argtextobj
+"Examples:
+"  case1) delete An argument
+"      function(int arg1,    ch<press 'daa' here>ar* arg2="a,b,c(d,e)")
+"      function(int arg1<cursor here; and if you press 'daa' again..>)
+"      function(<cursor>)
+"
+"  case2) change Inner argument
+"      function(int arg1,    ch<press 'cia' here>ar* arg2="a,b,c(d,e)")
+"      function(int arg1,    <cursor here>)
+
+set commentary
+
+set easymotion
+
+set exchange
+"cx{motion}              Used in pairs.
+"                        FIRST USE: define the first region of text to be
+"                        exchanged. Any valid {motion} can be used.
+"                        SECOND USE: define the second region of text and
+"                        perform the exchange.
+"                        Note: If a region was defined accidentally, it can
+"                        be cleared with |cxc|
+"
+"                                                *cxx* *exchange-define-line*
+"cxx                     Like |cx|, but for the current line. |linewise|
+"
+"                                                *cxc* *exchange-clear*
+"cxc                     Clear any defined region of text (previously defined
+"                        by a |cx| command)
+"
+"                                                *v_X* *exchange-visual*
+"{Visual}X               Can be used in |visual-mode|.
+
+set highlightedyank
+
+set surround
+
+set textobj-indent
+"<count>ai         (A)n (I)ndentation level and line above.
+"<count>ii         (I)nner (I)ndentation level (no line above).
+"<count>aI         (A)n (I)ndentation level and lines above/below.
+"<count>iI         (I)nner (I)ndentation level (no lines above/below).
+
+set which-key
+
+""" Key mappings ----------------------------
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+"" Map \r to the Reformat Code action
+"map \r <Action>(ReformatCode)
+
+"" Map <leader>d to start debug
+"map <leader>d <Action>(Debug)
+
+"" Map \b to toggle the breakpoint on the current line
+"map \b <Action>(ToggleLineBreakpoint)
+
+
+" Find more examples here: https://jb.gg/share-ideavimrc
