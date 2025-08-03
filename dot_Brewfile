@@ -28,6 +28,7 @@ brew "fish-lsp"
 cask "ghostty"
 cask "claude-code"
 cask "podman-desktop"
+cask "claude"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-symbols-only-nerd-font"
 
