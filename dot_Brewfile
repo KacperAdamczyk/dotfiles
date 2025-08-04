@@ -27,6 +27,7 @@ brew "uv"
 brew "openconnect"
 brew "docker"
 brew "colima"
+brew "pinentry-mac"
 
 cask "ghostty"
 cask "claude-code"
