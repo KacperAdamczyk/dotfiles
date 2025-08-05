@@ -27,6 +27,7 @@ brew "helix"
 brew "uv"
 brew "openconnect"
 brew "docker"
+brew "docker-compose"
 brew "colima"
 brew "pinentry-mac"
 
