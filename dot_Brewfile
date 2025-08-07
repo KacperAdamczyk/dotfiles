@@ -1,5 +1,6 @@
 brew "git"
 brew "fish"
+brew "nushell"
 brew "starship"
 brew "eza"
 brew "zoxide"
