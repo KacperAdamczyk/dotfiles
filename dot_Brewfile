@@ -33,6 +33,7 @@ brew "docker-compose"
 brew "docker-buildx"
 brew "colima"
 brew "pinentry-mac"
+brew "zellij"
 
 cask "ghostty"
 cask "claude-code"
