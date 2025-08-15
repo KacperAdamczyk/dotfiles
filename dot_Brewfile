@@ -38,6 +38,7 @@ brew "zellij"
 cask "ghostty"
 cask "claude-code"
 cask "claude"
+cask "container"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-symbols-only-nerd-font"
 
