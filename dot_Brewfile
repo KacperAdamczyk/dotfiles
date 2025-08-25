@@ -1,46 +1,69 @@
-brew "git"
-brew "fish"
-brew "nushell"
-brew "starship"
-brew "eza"
-brew "zoxide"
-brew "fzf"
-brew "dua-cli"
-brew "yazi"
-brew "sevenzip"
-brew "jq"
-brew "ffmpeg"
-brew "poppler"
-brew "fd"
-brew "rg"
-brew "ripgrep"
-brew "resvg"
-brew "imagemagick"
-brew "chezmoi"
-brew "nvim"
-brew "lazygit"
-brew "lazydocker"
-brew "gh"
+# Development Tools & Languages
 brew "node"
+brew "uv"
+tap "oven-sh/bun"
+brew "bun"
+
+# Node.js Package Managers
 brew "fnm"
 brew "pnpm"
 brew "yarn"
+
+# Text Editors & IDEs
 brew "helix"
-brew "uv"
-brew "openconnect"
-brew "docker"
-brew "docker-compose"
-brew "docker-buildx"
-brew "colima"
-brew "pinentry-mac"
+brew "nvim"
+
+# Version Control & Git Tools
+brew "git"
+brew "gh"
+brew "lazygit"
+
+# Shell & Terminal
+brew "fish"
+brew "nushell"
+brew "starship"
 brew "zellij"
 
-cask "ghostty"
-cask "claude-code"
+# File Management & Navigation
+brew "dua-cli"
+brew "eza"
+brew "fd"
+brew "fzf"
+brew "yazi"
+brew "zoxide"
+
+# Search & Text Processing
+brew "jq"
+brew "rg"
+brew "ripgrep"
+
+# Media & Image Processing
+brew "ffmpeg"
+brew "imagemagick"
+brew "poppler"
+brew "resvg"
+
+# System Tools & Utilities
+brew "chezmoi"
+brew "sevenzip"
+
+# Docker & Containers
+brew "colima"
+brew "docker"
+brew "docker-buildx"
+brew "docker-compose"
+brew "lazydocker"
+
+# Security & Networking
+brew "openconnect"
+brew "pinentry-mac"
+
+# GUI Applications
 cask "claude"
+cask "claude-code"
 cask "container"
+cask "ghostty"
+
+# Fonts
 cask "font-jetbrains-mono-nerd-font"
 cask "font-symbols-only-nerd-font"
-
-tap "oven-sh/bun"
-brew "bun"
