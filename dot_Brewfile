@@ -17,6 +17,8 @@ brew "nvim"
 brew "git"
 brew "gh"
 brew "lazygit"
+brew "jj"
+brew "jjui"
 
 # Shell & Terminal
 brew "fish"
