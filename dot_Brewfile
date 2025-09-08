@@ -61,10 +61,13 @@ brew "openconnect"
 brew "pinentry-mac"
 
 # GUI Applications
-cask "claude"
-cask "claude-code"
 cask "container"
 cask "ghostty"
+
+# AI
+brew "codex"
+cask "claude"
+cask "claude-code"
 
 # Fonts
 cask "font-jetbrains-mono-nerd-font"
