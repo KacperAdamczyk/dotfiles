@@ -3,6 +3,8 @@ brew "node"
 brew "uv"
 tap "oven-sh/bun"
 brew "bun"
+tap "tursodatabase/tap"
+brew "turso"
 
 # Node.js Package Managers
 brew "fnm"
