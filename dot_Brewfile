@@ -29,7 +29,6 @@ brew "starship"
 brew "zellij"
 
 # File Management & Navigation
-brew "dua-cli"
 brew "eza"
 brew "fd"
 brew "fzf"
@@ -67,10 +66,8 @@ cask "container"
 cask "ghostty"
 
 # AI
-brew "codex"
 cask "claude"
 cask "claude-code"
-brew "opencode"
 
 # Fonts
 cask "font-jetbrains-mono-nerd-font"
