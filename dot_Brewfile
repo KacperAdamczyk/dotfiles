@@ -68,6 +68,7 @@ cask "ghostty"
 # AI
 cask "claude"
 cask "claude-code"
+brew "opencode"
 
 # Fonts
 cask "font-jetbrains-mono-nerd-font"
