@@ -64,6 +64,7 @@ brew "pinentry-mac"
 # GUI Applications
 cask "container"
 cask "ghostty"
+cask "dbeaver-community"
 
 # AI
 cask "claude"
