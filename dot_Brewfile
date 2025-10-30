@@ -65,11 +65,11 @@ brew "pinentry-mac"
 cask "container"
 cask "ghostty"
 cask "dbeaver-community"
+cask "bruno"
 
 # AI
 cask "claude"
 cask "claude-code"
-brew "opencode"
 
 # Fonts
 cask "font-jetbrains-mono-nerd-font"
