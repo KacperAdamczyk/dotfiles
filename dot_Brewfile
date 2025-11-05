@@ -2,6 +2,8 @@
 brew "node"
 tap "oven-sh/bun"
 brew "bun"
+tap "libsql/sqld"
+brew "sqld"
 tap "tursodatabase/tap"
 brew "turso"
 
