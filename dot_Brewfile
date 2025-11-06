@@ -74,3 +74,4 @@ cask "claude-code"
 # Fonts
 cask "font-jetbrains-mono-nerd-font"
 cask "font-symbols-only-nerd-font"
+cask "font-monaspace"
