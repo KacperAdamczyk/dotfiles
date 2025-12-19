@@ -12,6 +12,9 @@
     fnm
     colima
     docker
+    nerd-fonts.monaspace
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
   ];
 
   programs = {
@@ -24,7 +27,6 @@
     fish = {
       enable = true;
       shellInit = ''
-        /opt/homebrew/bin/brew shellenv | source
         fnm env --use-on-cd --shell fish | source
       '';
     };
