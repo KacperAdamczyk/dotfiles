@@ -12,6 +12,7 @@
     fnm
     colima
     docker
+    nodePackages_latest.nodejs
     nerd-fonts.monaspace
     nerd-fonts.fira-code
     nerd-fonts.jetbrains-mono
