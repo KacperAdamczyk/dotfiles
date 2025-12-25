@@ -24,6 +24,7 @@
 
     # AI & CLI tools
     github-copilot-cli
+    turso-cli
 
     # Fonts
     nerd-fonts.monaspace
