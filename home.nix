@@ -3,28 +3,47 @@
 {
   home.stateVersion = "26.05";
 
+  # ============================================================================
+  # Packages
+  # ============================================================================
+
   home.packages = with pkgs; [
+    # Nix language servers
     nil
     nixd
-    github-copilot-cli
+
+    # Node.js ecosystem
+    nodePackages_latest.nodejs
+    fnm
     pnpm
     yarn
-    fnm
+
+    # Container tools
     colima
     docker
-    nodePackages_latest.nodejs
+
+    # AI & CLI tools
+    github-copilot-cli
+
+    # Fonts
     nerd-fonts.monaspace
     nerd-fonts.fira-code
     nerd-fonts.jetbrains-mono
   ];
 
+  # ============================================================================
+  # Programs
+  # ============================================================================
+
   programs = {
+    home-manager.enable = true;
+    # Nix helper
     nh = {
       enable = true;
       flake = "/Users/kacper/.config/darwin";
     };
-    claude-code.enable = true;
-    home-manager.enable = true;
+
+    # Shell & navigation
     fish = {
       enable = true;
       shellInit = ''
@@ -33,7 +52,8 @@
     };
     starship.enable = true;
     zoxide.enable = true;
-    lazygit.enable = true;
+
+    # Version control
     git = {
       enable = true;
       signing = {
@@ -49,14 +69,14 @@
       };
     };
     gh.enable = true;
+    lazygit.enable = true;
+
+    # Editors & AI
     neovim.enable = true;
     opencode.enable = true;
+    claude-code.enable = true;
+
+    # Runtimes
     bun.enable = true;
-  };
-
-  home.file = {
-  };
-
-  home.sessionVariables = {
   };
 }
