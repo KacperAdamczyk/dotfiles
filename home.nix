@@ -50,6 +50,7 @@
     };
     gh.enable = true;
     neovim.enable = true;
+    opencode.enable = true;
   };
 
   home.file = {
