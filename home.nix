@@ -51,6 +51,7 @@
     gh.enable = true;
     neovim.enable = true;
     opencode.enable = true;
+    bun.enable = true;
   };
 
   home.file = {
