@@ -73,7 +73,10 @@
     lazygit.enable = true;
 
     # Editors & AI
-    neovim.enable = true;
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+    };
     opencode.enable = true;
     claude-code.enable = true;
 
