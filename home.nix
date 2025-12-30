@@ -13,7 +13,7 @@
     nixd
 
     # Node.js ecosystem
-    nodePackages_latest.nodejs
+    nodejs_24
     fnm
     pnpm
     yarn
