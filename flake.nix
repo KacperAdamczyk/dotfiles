@@ -42,6 +42,7 @@
 
               # Nix settings
               nix.settings.experimental-features = "nix-command flakes";
+              nix.enable = false;
 
               # System packages
               environment.systemPackages = with pkgs; [
