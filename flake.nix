@@ -55,9 +55,11 @@
               programs.fish.enable = true;
 
               # User configuration
+              users.knownUsers = [ "kacper" ];
               users.users.kacper = {
                 home = "/Users/kacper";
                 shell = pkgs.fish;
+                uid = 501;
               };
             }
           )
