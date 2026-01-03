@@ -51,6 +51,7 @@
         fnm env --use-on-cd --shell fish | source
       '';
     };
+    nushell.enable = true;
     starship.enable = true;
     zoxide.enable = true;
 
