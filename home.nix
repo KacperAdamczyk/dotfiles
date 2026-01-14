@@ -83,5 +83,6 @@
 
     # Runtimes
     bun.enable = true;
+    java.enable = true;
   };
 }
