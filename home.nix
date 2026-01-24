@@ -25,6 +25,7 @@
     # AI & CLI tools
     github-copilot-cli
     turso-cli
+    postgresql
 
     # Fonts
     nerd-fonts.monaspace
