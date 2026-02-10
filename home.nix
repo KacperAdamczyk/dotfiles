@@ -73,6 +73,15 @@
     };
     gh.enable = true;
     lazygit.enable = true;
+    jujutsu = {
+      enable = true;
+      settings = {
+        user = {
+          name = "Kacper Adamczyk";
+          email = "kacper@admck.com";
+        };
+      };
+    };
 
     # Editors & AI
     neovim = {
