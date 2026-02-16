@@ -16,7 +16,6 @@
     nodejs_24
     fnm
     pnpm
-    yarn
 
     # Container tools
     colima
@@ -94,5 +93,8 @@
     # Runtimes
     bun.enable = true;
     java.enable = true;
+
+    # Tools
+    ripgrep.enable = true;
   };
 }
