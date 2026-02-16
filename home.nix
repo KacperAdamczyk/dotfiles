@@ -18,7 +18,6 @@
     pnpm
 
     # Container tools
-    colima
     docker
     podman-desktop
 
