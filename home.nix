@@ -20,6 +20,7 @@
     # Container tools
     colima
     docker
+    podman-desktop
 
     # AI & CLI tools
     github-copilot-cli
@@ -96,5 +97,9 @@
 
     # Tools
     ripgrep.enable = true;
+  };
+
+  services = {
+    podman.enable = true;
   };
 }
