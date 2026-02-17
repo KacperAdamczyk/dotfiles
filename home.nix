@@ -22,7 +22,6 @@
     podman-desktop
 
     # AI & CLI tools
-    github-copilot-cli
     turso-cli
     postgresql
 
@@ -48,6 +47,7 @@
     fish = {
       enable = true;
       shellInit = ''
+        /opt/homebrew/bin/brew shellenv | source
         fnm env --use-on-cd --shell fish | source
       '';
     };
@@ -88,7 +88,6 @@
       defaultEditor = true;
     };
     opencode.enable = true;
-    claude-code.enable = true;
 
     # Runtimes
     bun.enable = true;

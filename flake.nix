@@ -35,6 +35,7 @@
               # System version
               system.configurationRevision = self.rev or self.dirtyRev or null;
               system.stateVersion = 6;
+              system.primaryUser = "kacper";
 
               # Platform configuration
               nixpkgs.hostPlatform = "aarch64-darwin";
@@ -71,6 +72,24 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               users.kacper = import ./home.nix;
+            };
+          }
+
+          # Homebrew configuration
+          {
+            homebrew = {
+              enable = true;
+              onActivation = {
+                autoUpdate = true;
+                upgrade = true;
+                cleanup = "zap";
+              };
+              brews = [ ];
+              casks = [
+                "codex"
+                "claude-code"
+                "copilot-cli"
+              ];
             };
           }
         ];
