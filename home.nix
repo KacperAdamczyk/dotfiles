@@ -19,6 +19,7 @@
 
     # Container tools
     docker
+    docker-compose
     podman-desktop
 
     # AI & CLI tools
