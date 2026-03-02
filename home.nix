@@ -82,6 +82,7 @@
         };
       };
     };
+    jjui.enable = true;
 
     # Editors & AI
     neovim = {
