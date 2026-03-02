@@ -89,6 +89,7 @@
                 "codex"
                 "claude-code"
                 "copilot-cli"
+                "ghostty"
               ];
             };
           }
