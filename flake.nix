@@ -86,6 +86,7 @@
               };
               taps = [
                 "tursodatabase/tap"
+                "manaflow-ai/cmux"
               ];
               brews = [
                 "node"
@@ -98,6 +99,7 @@
                 "claude-code"
                 "copilot-cli"
                 "ghostty"
+                "cmux"
               ];
             };
           }
