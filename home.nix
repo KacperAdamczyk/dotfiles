@@ -12,19 +12,10 @@
     nil
     nixd
 
-    # Node.js ecosystem
-    nodejs_24
-    fnm
-    pnpm
-
     # Container tools
     docker
     docker-compose
     podman-desktop
-
-    # AI & CLI tools
-    turso-cli
-    postgresql
 
     # Fonts
     nerd-fonts.monaspace

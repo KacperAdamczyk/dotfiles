@@ -84,7 +84,15 @@
                 upgrade = true;
                 cleanup = "zap";
               };
-              brews = [ ];
+              taps = [
+                "tursodatabase/tap"
+              ];
+              brews = [
+                "node"
+                "fnm"
+                "pnpm"
+                "turso"
+              ];
               casks = [
                 "codex"
                 "claude-code"
