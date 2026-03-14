@@ -93,6 +93,7 @@
                 "fnm"
                 "pnpm"
                 "turso"
+                "vercel-cli"
               ];
               casks = [
                 "codex"
