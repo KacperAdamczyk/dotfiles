@@ -85,15 +85,11 @@
                 cleanup = "zap";
               };
               taps = [
-                "tursodatabase/tap"
                 "manaflow-ai/cmux"
               ];
               brews = [
                 "node"
-                "fnm"
                 "pnpm"
-                "turso"
-                "vercel-cli"
               ];
               casks = [
                 "codex"
