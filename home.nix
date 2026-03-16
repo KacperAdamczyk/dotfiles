@@ -40,7 +40,7 @@
       enable = true;
       shellInit = ''
         /opt/homebrew/bin/brew shellenv | source
-        fnm env --use-on-cd --shell fish | source
+        source ~/.config/fish/conf.d/vite-plus.fish
       '';
     };
     nushell.enable = true;
