@@ -93,7 +93,7 @@
               ];
               casks = [
                 "codex"
-                "claude-code"
+                "claude-code@latest"
                 "copilot-cli"
                 "ghostty"
                 "cmux"
