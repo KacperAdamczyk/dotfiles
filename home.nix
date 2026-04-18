@@ -43,7 +43,6 @@
         source ~/.config/fish/conf.d/vite-plus.fish
       '';
     };
-    nushell.enable = true;
     starship.enable = true;
     zoxide.enable = true;
 
