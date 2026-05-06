@@ -40,7 +40,9 @@
       enable = true;
       shellInit = ''
         /opt/homebrew/bin/brew shellenv | source
-        source ~/.config/fish/conf.d/vite-plus.fish
+        if command -q mise
+            mise activate fish | source
+        end
       '';
     };
     starship.enable = true;

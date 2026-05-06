@@ -88,8 +88,8 @@
                 "manaflow-ai/cmux"
               ];
               brews = [
-                "node"
-                "pnpm"
+                "mise"
+                "heroku/brew/heroku"
               ];
               casks = [
                 "codex"
