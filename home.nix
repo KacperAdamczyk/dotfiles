@@ -44,6 +44,10 @@
             mise activate fish | source
         end
       '';
+      functions.nhs = ''
+        env NIX_CONFIG="access-tokens = github.com=(gh auth token)" \
+          nh darwin switch $argv
+      '';
     };
     starship.enable = true;
     zoxide.enable = true;
@@ -82,6 +86,7 @@
       defaultEditor = true;
     };
     opencode.enable = true;
+    helix.enable = true;
 
     # Runtimes
     bun.enable = true;
