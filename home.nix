@@ -21,7 +21,19 @@
     nerd-fonts.monaspace
     nerd-fonts.fira-code
     nerd-fonts.jetbrains-mono
+
+    # Editor (LazyVim — config lives in ~/.config/nvim, not managed by nix)
+    neovim
+    fd
+    gcc
+    nodejs
+    unzip
   ];
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
 
   # ============================================================================
   # Programs
@@ -81,10 +93,6 @@
     jjui.enable = true;
 
     # Editors & AI
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-    };
     opencode.enable = true;
     helix.enable = true;
 
@@ -99,4 +107,17 @@
   services = {
     podman.enable = true;
   };
+
+  # ============================================================================
+  # LazyVim bootstrap
+  # ============================================================================
+  # Clones the LazyVim starter into ~/.config/nvim on first activation.
+  # After that, LazyVim manages itself — edit files in ~/.config/nvim directly.
+  home.activation.lazyVimStarter = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    if [ ! -f "$HOME/.config/nvim/lua/config/lazy.lua" ]; then
+      run rm -rf "$HOME/.config/nvim"
+      run ${pkgs.git}/bin/git clone https://github.com/LazyVim/starter "$HOME/.config/nvim"
+      run rm -rf "$HOME/.config/nvim/.git"
+    fi
+  '';
 }
