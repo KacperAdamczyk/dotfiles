@@ -85,7 +85,6 @@
                 cleanup = "zap";
               };
               taps = [
-                "manaflow-ai/cmux"
               ];
               brews = [
                 "mise"
@@ -96,7 +95,6 @@
                 "claude-code@latest"
                 "copilot-cli"
                 "ghostty"
-                "cmux"
               ];
             };
           }
