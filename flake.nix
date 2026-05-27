@@ -85,10 +85,12 @@
                 cleanup = "zap";
               };
               taps = [
+                "modem-dev/tap"
               ];
               brews = [
                 "mise"
                 "heroku/brew/heroku"
+                "modem-dev/tap/hunk"
               ];
               casks = [
                 "codex"
