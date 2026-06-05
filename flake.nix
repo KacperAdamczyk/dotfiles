@@ -83,6 +83,8 @@
                 autoUpdate = true;
                 upgrade = true;
                 cleanup = "zap";
+                # Homebrew now requires an explicit force flag for `brew bundle --cleanup`
+                extraFlags = [ "--force-cleanup" ];
               };
               taps = [
                 "modem-dev/tap"

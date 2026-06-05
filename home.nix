@@ -98,6 +98,7 @@
 
     # Tools
     ripgrep.enable = true;
+    fd.enable = true;
   };
 
   services = {
