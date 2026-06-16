@@ -93,11 +93,10 @@
                 "mise"
                 "heroku/brew/heroku"
                 "modem-dev/tap/hunk"
+                "portless"
               ];
               casks = [
-                "codex"
                 "claude-code@latest"
-                "copilot-cli"
                 "ghostty"
               ];
             };
