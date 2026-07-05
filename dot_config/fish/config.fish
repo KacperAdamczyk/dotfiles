@@ -7,8 +7,8 @@ for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linu
 end
 
 # Editor
-set -gx EDITOR nvim
-set -gx VISUAL nvim
+set -gx EDITOR hx
+set -gx VISUAL hx
 
 # Java (Homebrew's openjdk is keg-only)
 if set -q HOMEBREW_PREFIX; and test -d $HOMEBREW_PREFIX/opt/openjdk/bin
