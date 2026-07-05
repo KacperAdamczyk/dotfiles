@@ -10,6 +10,7 @@ brew "protonpass/tap/pass-cli"
 brew "fish"
 brew "starship"
 brew "zoxide"
+brew "atuin"
 
 # Editors
 brew "neovim"

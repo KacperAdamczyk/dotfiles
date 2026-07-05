@@ -25,6 +25,10 @@ status is-interactive; and begin
         zoxide init fish | source
     end
 
+    if command -q atuin
+        atuin init fish | source
+    end
+
     if test "$TERM" != dumb; and command -q starship
         starship init fish | source
     end
