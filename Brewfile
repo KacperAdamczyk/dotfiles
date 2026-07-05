@@ -1,8 +1,10 @@
 tap "heroku/brew"
 tap "modem-dev/tap"
+tap "protonpass/tap"
 
-# Dotfiles management
+# Dotfiles management & secrets
 brew "chezmoi"
+brew "protonpass/tap/pass-cli"
 
 # Shell & prompt
 brew "fish"
