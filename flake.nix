@@ -94,6 +94,7 @@
                 "heroku/brew/heroku"
                 "modem-dev/tap/hunk"
                 "portless"
+                "herdr"
               ];
               casks = [
                 "claude-code@latest"
