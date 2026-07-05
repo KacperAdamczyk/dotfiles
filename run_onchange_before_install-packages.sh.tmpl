@@ -1,0 +1,11 @@
+#!/bin/sh
+# Installs/updates packages whenever the Brewfile changes.
+# Brewfile hash: {{ include "Brewfile" | sha256sum }}
+set -eu
+
+if ! command -v brew >/dev/null 2>&1; then
+    echo "warning: Homebrew not found, skipping 'brew bundle' (see README.md)" >&2
+    exit 0
+fi
+
+brew bundle --file="{{ .chezmoi.sourceDir }}/Brewfile"

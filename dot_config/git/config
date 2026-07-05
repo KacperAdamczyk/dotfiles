@@ -1,0 +1,21 @@
+[user]
+	name = Kacper Adamczyk
+	email = kacper@admck.com
+	signingKey = ~/.ssh/id_ed25519
+
+[gpg]
+	format = ssh
+
+[commit]
+	gpgSign = true
+
+[tag]
+	gpgSign = true
+
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
