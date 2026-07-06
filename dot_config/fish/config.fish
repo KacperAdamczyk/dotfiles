@@ -29,6 +29,10 @@ status is-interactive; and begin
         atuin init fish | source
     end
 
+    if command -q direnv
+        direnv hook fish | source
+    end
+
     if test "$TERM" != dumb; and command -q starship
         starship init fish | source
     end

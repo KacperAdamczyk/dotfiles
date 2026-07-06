@@ -11,6 +11,7 @@ brew "fish"
 brew "starship"
 brew "zoxide"
 brew "atuin"
+brew "direnv"
 
 # Editors
 brew "neovim"
