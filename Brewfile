@@ -47,6 +47,7 @@ brew "modem-dev/tap/hunk"
 # GUI apps & fonts (macOS only — Homebrew casks don't exist on Linux)
 if OS.mac?
   cask "claude-code@latest"
+  cask "codex"
   cask "ghostty"
   cask "podman-desktop"
   cask "font-monaspice-nerd-font"
