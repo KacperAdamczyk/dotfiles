@@ -1,4 +1,5 @@
 tap "heroku/brew"
+tap "microsoft/apm"
 tap "modem-dev/tap"
 tap "protonpass/tap"
 
@@ -42,6 +43,7 @@ brew "portless"
 brew "herdr"
 brew "opencode"
 brew "heroku/brew/heroku"
+brew "microsoft/apm/apm"
 brew "modem-dev/tap/hunk"
 
 # GUI apps & fonts (macOS only — Homebrew casks don't exist on Linux)
