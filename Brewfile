@@ -25,6 +25,7 @@ brew "gh"
 brew "lazygit"
 brew "jj"
 brew "jjui"
+brew "tuicr"
 
 # Runtimes & toolchains
 brew "mise"
