@@ -40,6 +40,7 @@ brew "podman"
 # CLI tools
 brew "ripgrep"
 brew "fd"
+brew "imagemagick"
 brew "portless"
 brew "herdr"
 brew "opencode"
