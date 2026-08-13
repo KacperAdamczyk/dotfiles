@@ -32,10 +32,14 @@ brew "mise"
 brew "bun"
 brew "openjdk"
 
-# Containers
-brew "docker"
-brew "docker-compose"
-brew "podman"
+# Containers — Apple Container on macOS (Apple Silicon), Docker on Linux
+if OS.mac?
+  brew "container"
+  brew "container-compose"
+else
+  brew "docker"
+  brew "docker-compose"
+end
 
 # CLI tools
 brew "ripgrep"
@@ -53,7 +57,7 @@ if OS.mac?
   cask "claude-code@latest"
   cask "codex"
   cask "ghostty"
-  cask "podman-desktop"
+  cask "grok-build"
   cask "font-monaspice-nerd-font"
   cask "font-fira-code-nerd-font"
   cask "font-jetbrains-mono-nerd-font"
