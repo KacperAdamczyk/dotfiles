@@ -56,11 +56,16 @@ chsh -s "$(brew --prefix)/bin/fish"
     build cache — lives on the external drive instead of the boot SSD. The
     export is guarded on the drive being mounted; without it colima falls back
     to `~/.colima`, which is a *separate, empty* VM rather than an error.
-  - Start it with the `colima-start` function, which refuses to run when the
-    drive is absent and mounts `/Volumes/Data` read-write into the VM so
-    containers can reach files there. Plain `colima start` works too, but the
-    drive is not mounted inside the VM unless you pass `--mount`.
-  - Then point the CLI at it once with `docker context use colima`.
+  - Start it with the `colima-start` function, which mounts `/Volumes/Data`
+    read-write into the VM so containers can reach files there, and refuses to
+    run when the drive is absent.
+  - **Do not use plain `colima start`.** Two traps: the drive is not mounted
+    inside the VM without `--mount`, and colima falls back to `~/.colima`
+    *silently* when `$COLIMA_HOME` does not exist yet — building the VM on the
+    boot SSD with no warning. `colima-start` creates the directory first so
+    that fallback cannot trigger.
+  - Colima switches the docker CLI to its own context on start, so no manual
+    `docker context use` is needed.
   - **Unplug the drive only after `colima stop`.** Yanking it while the VM is
     running can corrupt the disk image, and nothing in this repo can guard
     against that.
