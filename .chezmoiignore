@@ -1,2 +1,8 @@
 README.md
 Brewfile
+
+{{ if not (dig "colima" "drive" "" .) -}}
+# No external drive configured on this machine — colima uses its default
+# ~/.colima, so the wrapper that points it elsewhere would be misleading.
+.config/fish/functions/colima-start.fish
+{{ end -}}

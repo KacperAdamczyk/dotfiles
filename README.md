@@ -51,18 +51,26 @@ chsh -s "$(brew --prefix)/bin/fish"
   - Ghostty, Nerd Fonts: distro packages or upstream releases
 - **Containers**: the `docker` CLI installs everywhere, but on macOS it needs a
   Linux VM behind it — `colima` (macOS only) provides one.
-  - `COLIMA_HOME` is set to `/Volumes/Data/colima` (see `config.fish`), so the
-    VM's disk image — and therefore every container image layer, volume and
-    build cache — lives on the external drive instead of the boot SSD. The
-    export is guarded on the drive being mounted; without it colima falls back
-    to `~/.colima`, which is a *separate, empty* VM rather than an error.
-  - Start it with the `colima-start` function, which mounts `/Volumes/Data`
-    read-write into the VM so containers can reach files there, and refuses to
-    run when the drive is absent.
+  - Which drive holds the VM is **per-machine**, not baked into the repo. The
+    answer lives in `~/.config/chezmoi/chezmoi.toml` as `colima.drive`, written
+    by `chezmoi init` from `.chezmoi.toml.tmpl` and never committed here.
+    Leave it blank and the whole colima block drops out of `config.fish`, the
+    `colima-start` function is not installed at all, and colima uses its
+    default `~/.colima` — so a machine with no external drive gets a working
+    setup rather than a broken path. Change drives later with
+    `chezmoi init` after clearing the value, or by editing that file.
+  - Where a drive *is* configured, `COLIMA_HOME` points at `<drive>/colima`, so
+    the VM's disk image — and therefore every container image layer, volume and
+    build cache — lives there instead of on the boot disk. The export is
+    guarded on the drive being mounted; without it colima falls back to
+    `~/.colima`, which is a *separate, empty* VM rather than an error.
+  - Start it with the `colima-start` function, which mounts the configured
+    drive read-write into the VM so containers can reach files there, and
+    refuses to run when it is absent.
   - **Do not use plain `colima start`.** Two traps: the drive is not mounted
     inside the VM without `--mount`, and colima falls back to `~/.colima`
     *silently* when `$COLIMA_HOME` does not exist yet — building the VM on the
-    boot SSD with no warning. `colima-start` creates the directory first so
+    boot disk with no warning. `colima-start` creates the directory first so
     that fallback cannot trigger.
   - Colima switches the docker CLI to its own context on start, so no manual
     `docker context use` is needed.

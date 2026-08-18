@@ -1,0 +1,18 @@
+{{- /* Machine-specific settings.
+
+`chezmoi init` renders this into ~/.config/chezmoi/chezmoi.toml, which lives
+outside the repo — so the answers stay on the machine that gave them and are
+never committed here. Re-running init reuses the existing answers rather than
+asking again.
+
+colima.drive: external drive to keep colima's VM (and with it every container
+image layer, volume and build cache) on. Leave blank to let colima use its
+default ~/.colima on the boot disk. */ -}}
+
+{{- $colimaDrive := dig "colima" "drive" "" (dig "config" "data" dict .chezmoi) -}}
+{{- if not $colimaDrive -}}
+{{-   $colimaDrive = promptString "colima.drive (external drive for container image storage, e.g. /Volumes/Data; blank for ~/.colima)" "" -}}
+{{- end -}}
+
+[data.colima]
+    drive = {{ $colimaDrive | quote }}
