@@ -1,0 +1,23 @@
+#!/bin/sh
+# Manages ~/.docker/config.json in place: reads the current file on stdin and
+# re-emits it with Homebrew's cli-plugins directory registered, so that
+# `docker compose` can find the plugin installed by the docker-compose formula.
+#
+# Everything else in the file is passed through untouched — in particular
+# `auths` (credentials) and `currentContext` (per-machine runtime state), which
+# must never be captured into this public repo.
+set -eu
+
+config=$(cat)
+[ -n "$config" ] || config='{}'
+
+if ! command -v brew >/dev/null 2>&1 || ! command -v jq >/dev/null 2>&1; then
+    echo "warning: brew or jq not found, leaving ~/.docker/config.json unchanged" >&2
+    printf '%s' "$config"
+    exit 0
+fi
+
+plugins_dir="$(brew --prefix)/lib/docker/cli-plugins"
+
+printf '%s' "$config" | jq --arg dir "$plugins_dir" \
+    '.cliPluginsExtraDirs = ((.cliPluginsExtraDirs // []) - [$dir] + [$dir])'

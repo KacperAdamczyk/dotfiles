@@ -49,6 +49,27 @@ chsh -s "$(brew --prefix)/bin/fish"
   On Linux, install the equivalents through your distro's package manager:
   - Claude Code: `curl -fsSL https://claude.ai/install.sh | bash`
   - Ghostty, Nerd Fonts: distro packages or upstream releases
+- **Containers**: the `docker` CLI installs everywhere, but on macOS it needs a
+  Linux VM behind it — `colima` (macOS only) provides one.
+  - `COLIMA_HOME` is set to `/Volumes/Data/colima` (see `config.fish`), so the
+    VM's disk image — and therefore every container image layer, volume and
+    build cache — lives on the external drive instead of the boot SSD. The
+    export is guarded on the drive being mounted; without it colima falls back
+    to `~/.colima`, which is a *separate, empty* VM rather than an error.
+  - Start it with the `colima-start` function, which refuses to run when the
+    drive is absent and mounts `/Volumes/Data` read-write into the VM so
+    containers can reach files there. Plain `colima start` works too, but the
+    drive is not mounted inside the VM unless you pass `--mount`.
+  - Then point the CLI at it once with `docker context use colima`.
+  - **Unplug the drive only after `colima stop`.** Yanking it while the VM is
+    running can corrupt the disk image, and nothing in this repo can guard
+    against that.
+  - Colima's own `colima.yaml` lives under `$COLIMA_HOME` and is deliberately
+    *not* managed here — it is per-machine state tied to a specific drive.
+  - `~/.docker/config.json` is managed by a `modify_` script that only registers
+    Homebrew's `cli-plugins` dir (so `docker compose` resolves); `auths` and
+    `currentContext` are read from the existing file and passed through, so
+    credentials never enter this repo.
 - **Git signing** expects an SSH key at `~/.ssh/id_ed25519` — generate one with
   `ssh-keygen -t ed25519` and add it to GitHub as a *signing* key.
 - **GitHub auth**: run `gh auth login` (git credentials go through `gh`).

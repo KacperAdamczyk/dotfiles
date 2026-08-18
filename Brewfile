@@ -32,13 +32,17 @@ brew "mise"
 brew "bun"
 brew "openjdk"
 
-# Containers
+# Containers — colima provides the Linux VM the Docker CLI talks to on macOS
 brew "docker"
 brew "docker-compose"
+if OS.mac?
+  brew "colima"
+end
 
 # CLI tools
 brew "ripgrep"
 brew "fd"
+brew "jq"
 brew "imagemagick"
 brew "portless"
 brew "herdr"

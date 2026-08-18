@@ -15,6 +15,14 @@ if set -q HOMEBREW_PREFIX; and test -d $HOMEBREW_PREFIX/opt/openjdk/bin
     fish_add_path $HOMEBREW_PREFIX/opt/openjdk/bin
 end
 
+# Containers — keep colima's VM (and with it every container image layer) on
+# the external Data drive. Falls back to the default ~/.colima when it is not
+# mounted, so a detached drive degrades to a separate empty VM rather than a
+# broken one.
+if test -d /Volumes/Data
+    set -gx COLIMA_HOME /Volumes/Data/colima
+end
+
 # Runtime version manager
 if command -q mise
     mise activate fish | source
