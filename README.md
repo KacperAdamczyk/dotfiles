@@ -49,9 +49,6 @@ chsh -s "$(brew --prefix)/bin/fish"
   On Linux, install the equivalents through your distro's package manager:
   - Claude Code: `curl -fsSL https://claude.ai/install.sh | bash`
   - Ghostty, Nerd Fonts: distro packages or upstream releases
-- **Containers** are split by platform: macOS (Apple Silicon) gets Apple
-  Container (`container`, `container-compose`), Linux gets `docker` /
-  `docker-compose`. Neither set installs on the other platform.
 - **Git signing** expects an SSH key at `~/.ssh/id_ed25519` — generate one with
   `ssh-keygen -t ed25519` and add it to GitHub as a *signing* key.
 - **GitHub auth**: run `gh auth login` (git credentials go through `gh`).

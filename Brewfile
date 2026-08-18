@@ -32,14 +32,9 @@ brew "mise"
 brew "bun"
 brew "openjdk"
 
-# Containers — Apple Container on macOS (Apple Silicon), Docker on Linux
-if OS.mac?
-  brew "container"
-  brew "container-compose"
-else
-  brew "docker"
-  brew "docker-compose"
-end
+# Containers
+brew "docker"
+brew "docker-compose"
 
 # CLI tools
 brew "ripgrep"
