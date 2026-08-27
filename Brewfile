@@ -55,6 +55,7 @@ brew "modem-dev/tap/hunk"
 if OS.mac?
   cask "claude-code@latest"
   cask "codex"
+  cask "crisp"
   cask "ghostty"
   cask "grok-build"
   cask "font-monaspice-nerd-font"
