@@ -1,0 +1,45 @@
+#!/bin/sh
+# Manages ~/.ssh/config in place: reads the current file on stdin and re-emits
+# it with the managed block below appended.
+#
+# The file is deliberately *not* fully managed, because colima writes to it too:
+# `colima start` appends `Include $COLIMA_HOME/ssh_config` unless it is given
+# --ssh-config=false, and it appends a fresh line per COLIMA_HOME rather than
+# replacing the previous one. A fully managed file would be reverted by chezmoi
+# on every apply and re-appended by colima on every start, forever. Everything
+# outside the managed block is read from the existing file and passed through
+# untouched.
+set -eu
+
+begin='# --- chezmoi managed: agent + keychain (do not edit) ---'
+end='# --- end chezmoi managed ---'
+
+# Drop the block emitted by a previous run, so applying updates it in place
+# rather than stacking copies. Command substitution also strips trailing
+# newlines, so repeated applies cannot accumulate blank lines before the block.
+# The trailing squeeze keeps blank lines from stacking up where the block used
+# to be, since colima appends to the end of the file between applies.
+config=$(awk -v b="$begin" -v e="$end" '
+    $0 == b { skip = 1 }
+    !skip   { print }
+    $0 == e { skip = 0 }
+' | awk 'NF { blank = 0 } !NF { blank++ } blank < 2')
+
+[ -z "$config" ] || printf '%s\n\n' "$config"
+
+# `Host *` goes last on purpose: ssh_config uses the first value it obtains for
+# each keyword, so the host-specific blocks pulled in by the Includes above keep
+# precedence over these defaults.
+#
+# UseKeychain lets ssh read a key's passphrase from the login keychain instead
+# of prompting, and AddKeysToAgent adds the key to the agent on first use, so a
+# passphrase is asked for at most once per boot. UseKeychain is an Apple-only
+# keyword that ssh elsewhere rejects outright, which is why .chezmoiignore drops
+# this file on non-macOS machines.
+cat <<EOF
+$begin
+Host *
+    AddKeysToAgent yes
+    UseKeychain yes
+$end
+EOF

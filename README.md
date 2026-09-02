@@ -10,6 +10,7 @@ All packages are installed with [Homebrew](https://brew.sh/) from the [`Brewfile
 | `Brewfile` | All packages: taps, formulae, and (macOS-only) casks |
 | `run_onchange_before_install-packages.sh.tmpl` | Runs `brew bundle` automatically whenever the Brewfile changes |
 | `dot_config/` | Files applied to `~/.config/` (fish, git, jj, starship, ghostty, mise) |
+| `private_dot_ssh/` | A `modify_` script that maintains one managed block in `~/.ssh/config` |
 | `.chezmoiignore` | Files that live in the repo but are never applied to `$HOME` |
 
 ## Fresh system setup
@@ -85,6 +86,31 @@ chsh -s "$(brew --prefix)/bin/fish"
     credentials never enter this repo.
 - **Git signing** expects an SSH key at `~/.ssh/id_ed25519` — generate one with
   `ssh-keygen -t ed25519` and add it to GitHub as a *signing* key.
+  - If that key has a passphrase, hand it to the login keychain **once** per
+    machine:
+
+    ```sh
+    ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+    ```
+
+    Nothing needs `ssh-add` after that, reboots included: `config.fish` runs
+    `ssh-add --apple-load-keychain` on the first interactive shell, which
+    re-adds every keychain-backed key to the agent.
+  - That shell hook is the part that makes *signing* work, not the
+    `~/.ssh/config` block. Git signs by shelling out to `ssh-keygen`, which
+    never reads `ssh_config` and so cannot reach `UseKeychain` on its own — it
+    needs the key already sitting in the agent, or it prompts for the
+    passphrase on every single commit.
+  - `~/.ssh/config` is maintained by a `modify_` script rather than managed as
+    a whole file, because colima writes to it too: `colima start` appends an
+    `Include` line for its own `ssh_config` (a fresh one per `COLIMA_HOME`,
+    rather than replacing the previous). A fully managed file would be reverted
+    on every `chezmoi apply` and re-appended on every `colima start`. The
+    script rewrites only its own marked block and appends it last, so the
+    host-specific settings colima includes above keep precedence —
+    `ssh_config` uses the *first* value it obtains for each keyword.
+    macOS-only: `UseKeychain` is an Apple keyword that ssh elsewhere rejects,
+    so `.chezmoiignore` drops the file on Linux.
 - **GitHub auth**: run `gh auth login` (git credentials go through `gh`).
 
 ## Day-to-day usage

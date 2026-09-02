@@ -6,3 +6,9 @@ Brewfile
 # ~/.colima, so the wrapper that points it elsewhere would be misleading.
 .config/fish/functions/colima-start.fish
 {{ end -}}
+
+{{ if ne .chezmoi.os "darwin" -}}
+# The managed block in ~/.ssh/config sets UseKeychain, an Apple-only keyword
+# that makes ssh elsewhere exit with "Bad configuration option".
+.ssh/config
+{{ end -}}

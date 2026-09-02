@@ -32,6 +32,17 @@ if command -q mise
 end
 
 status is-interactive; and begin
+{{- if eq .chezmoi.os "darwin" }}
+    # Put keys whose passphrase is stored in the login keychain back into the
+    # agent. The agent is empty after a reboot, and git's ssh signing shells out
+    # to ssh-keygen, which does not read ssh_config and so cannot reach
+    # UseKeychain on its own — without this, the first commit after every reboot
+    # prompts for the passphrase. Idempotent and silent: keys already loaded, or
+    # with no passphrase in the keychain, are skipped.
+    if command -q ssh-add
+        ssh-add --apple-load-keychain -q 2>/dev/null
+    end
+{{ end }}
     if command -q zoxide
         zoxide init fish | source
     end
