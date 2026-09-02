@@ -1,3 +1,17 @@
 [user]
 name = "Kacper Adamczyk"
 email = "kacper@admck.com"
+
+# jj does not read git's commit.gpgSign, so commits made through jj were going
+# out unsigned even though ~/.config/git/config asks for signatures. "own"
+# signs the commits this user authors, and leaves other people's alone when
+# rewriting them. The key is the private half, as in the git config: that signs
+# through the agent when the key is loaded, and falls back to prompting for the
+# passphrase rather than failing when it is not.
+[signing]
+backend = "ssh"
+behavior = "own"
+key = "~/.ssh/id_ed25519"
+
+[signing.backends.ssh]
+allowed-signers = "~/.config/git/allowed_signers"

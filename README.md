@@ -10,7 +10,7 @@ All packages are installed with [Homebrew](https://brew.sh/) from the [`Brewfile
 | `Brewfile` | All packages: taps, formulae, and (macOS-only) casks |
 | `run_onchange_before_install-packages.sh.tmpl` | Runs `brew bundle` automatically whenever the Brewfile changes |
 | `dot_config/` | Files applied to `~/.config/` (fish, git, jj, starship, ghostty, mise) |
-| `private_dot_ssh/` | A `modify_` script that maintains one managed block in `~/.ssh/config` |
+| `private_dot_ssh/` | The `~/.ssh/config` block, and the SSH key fetched from Proton Pass |
 | `.chezmoiignore` | Files that live in the repo but are never applied to `$HOME` |
 
 ## Fresh system setup
@@ -111,6 +111,59 @@ chsh -s "$(brew --prefix)/bin/fish"
     `ssh_config` uses the *first* value it obtains for each keyword.
     macOS-only: `UseKeychain` is an Apple keyword that ssh elsewhere rejects,
     so `.chezmoiignore` drops the file on Linux.
+- **The key itself comes from Proton Pass**, so a new machine does not need the
+  old one copied across by hand. Store it once, from a machine that has it:
+
+  ```sh
+  pass-cli login
+  pass-cli vault list                                       # pick a vault
+  pass-cli item create ssh-key import --vault-name Personal --password \
+      --from-private-key ~/.ssh/id_ed25519 --title "SSH: id_ed25519"
+  pass-cli item list --vault-name Personal --filter-type ssh-key --output json
+  ```
+
+  Both `create` and `list` need `--vault-name` (or `--share-id`); neither
+  guesses a default. `--password` is for a passphrase-protected key, and the
+  key is stored still encrypted — Proton holds the ciphertext, not the key.
+
+  The import derives the item's `public_key` field from the key material and
+  **drops the trailing comment**, which leaves `ssh-add -l` reporting "no
+  comment". Put it back once, on the item:
+
+  ```sh
+  pass-cli item update --vault-name Personal --item-id <ITEM_ID> \
+      --field "public_key=$(cat ~/.ssh/id_ed25519.pub)"
+  ```
+
+  The private key needs no such fix: its comment lives inside the key file,
+  which round-trips byte for byte.
+
+  Then set `protonpass.sshKeyItem` to `pass://SHARE_ID/ITEM_ID` (via
+  `chezmoi init`, or by editing `~/.config/chezmoi/chezmoi.toml`), and
+  `chezmoi apply` writes both halves of the key on any machine missing them.
+  - The templates use chezmoi's `create_` prefix, which writes a file **only
+    when it is absent**. So the fetch happens once, on a fresh machine: an
+    existing key is never overwritten, machines that already have the key need
+    no Proton session to run `chezmoi apply`, and `chezmoi diff` never prints
+    private key material. To rotate, delete `~/.ssh/id_ed25519*` and apply.
+  - The item reference lives in per-machine config rather than in this repo
+    because the IDs belong to one Proton account. Leave it blank and the key
+    templates are ignored entirely — same shape as `colima.drive`.
+  - The passphrase is *not* in the vault, only the encrypted key file is. On a
+    fresh machine you still need it once, for `ssh-add --apple-use-keychain`,
+    so keep it somewhere in Proton Pass too.
+- **Verifying signatures** needs `gpg.ssh.allowedSignersFile`, which points at
+  `dot_config/git/allowed_signers` — a plain committed file, since public keys
+  are not secret. Without it git cannot classify its own signatures and
+  `git log --show-signature` errors out. Add a line per identity; the principal
+  has to match the commit author, and `namespaces="git"` keeps the key from
+  being trusted for anything beyond commit signatures.
+- **jj signs separately from git.** It does not read `commit.gpgSign`, and its
+  default is `signing.backend = "none"` — so every commit in this repo's
+  history was written unsigned despite the git config asking for signatures.
+  `dot_config/jj/config.toml` now sets the ssh backend with
+  `behavior = "own"`. Check with `git log --format='%h %G? %GS'`: `G` is a good
+  signature, `N` means none at all.
 - **GitHub auth**: run `gh auth login` (git credentials go through `gh`).
 
 ## Day-to-day usage

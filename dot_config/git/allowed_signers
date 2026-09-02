@@ -1,0 +1,5 @@
+# Principals trusted to sign git commits, for `gpg.ssh.allowedSignersFile`.
+# Public keys only — nothing here is secret. The namespaces= restriction keeps
+# a key trusted for git signatures from also being trusted for, say, signed
+# files. Add a line per identity; the principal must match the commit author.
+kacper@admck.com namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAhYUzq+Y30izkuhwpV2N18vrQnu5y7xvvLD2JYaNDWd

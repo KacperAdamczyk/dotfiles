@@ -1,0 +1,8 @@
+{{- /* The public half of the same Proton Pass item. Fetched on the same terms
+as the private key — see create_private_id_ed25519.tmpl.
+
+`pass-cli item create ssh-key import` derives this field from the key material
+and drops the trailing comment, which leaves ssh-add -l and ssh -v labelling
+the key "no comment". The comment was put back on the item itself with
+`pass-cli item update --field public_key=...`, so nothing is needed here. */ -}}
+{{ protonPass (printf "%s/public_key" .protonpass.sshKeyItem) | trim }}

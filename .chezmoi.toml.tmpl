@@ -7,12 +7,27 @@ asking again.
 
 colima.drive: external drive to keep colima's VM (and with it every container
 image layer, volume and build cache) on. Leave blank to let colima use its
-default ~/.colima on the boot disk. */ -}}
+default ~/.colima on the boot disk.
+
+protonpass.sshKeyItem: the Proton Pass SSH key item holding ~/.ssh/id_ed25519,
+as `pass://SHARE_ID/ITEM_ID` (no field suffix). Find it with
+`pass-cli item list --output json --filter-type ssh-key`. Only used to write
+the key when it is *missing*, so blank simply means this machine keeps whatever
+key it already has and never talks to Proton Pass. It lives here rather than in
+the repo because the IDs are specific to one Proton account. */ -}}
 
 {{- $colimaDrive := dig "colima" "drive" "" (dig "config" "data" dict .chezmoi) -}}
 {{- if not $colimaDrive -}}
 {{-   $colimaDrive = promptString "colima.drive (external drive for container image storage, e.g. /Volumes/Data; blank for ~/.colima)" "" -}}
 {{- end -}}
 
+{{- $sshKeyItem := dig "protonpass" "sshKeyItem" "" (dig "config" "data" dict .chezmoi) -}}
+{{- if not $sshKeyItem -}}
+{{-   $sshKeyItem = promptString "protonpass.sshKeyItem (pass://SHARE_ID/ITEM_ID for the SSH key; blank to never fetch it)" "" -}}
+{{- end -}}
+
 [data.colima]
     drive = {{ $colimaDrive | quote }}
+
+[data.protonpass]
+    sshKeyItem = {{ $sshKeyItem | quote }}

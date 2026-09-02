@@ -12,3 +12,10 @@ Brewfile
 # that makes ssh elsewhere exit with "Bad configuration option".
 .ssh/config
 {{ end -}}
+
+{{ if not (dig "protonpass" "sshKeyItem" "" .) -}}
+# No Proton Pass item configured on this machine, so there is nowhere to fetch
+# the SSH key from — leave whatever key is already on disk alone.
+.ssh/id_ed25519
+.ssh/id_ed25519.pub
+{{ end -}}

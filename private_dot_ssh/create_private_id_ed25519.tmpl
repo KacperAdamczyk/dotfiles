@@ -1,0 +1,7 @@
+{{- /* Written from Proton Pass the first time a machine applies without this
+key, then never touched again: the `create_` prefix makes chezmoi skip the
+entry entirely when the target exists, so a local key is never overwritten, no
+Proton session is needed on a machine that already has one, and `chezmoi diff`
+has nothing to print. Rotating the key means deleting the local file and
+applying again. */ -}}
+{{ protonPass (printf "%s/private_key" .protonpass.sshKeyItem) | trim }}
