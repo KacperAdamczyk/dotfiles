@@ -1,58 +1,48 @@
+# Tools managed by Homebrew on both macOS and Linux.
+# Fedora-provided tools are listed separately in packages-fedora.txt.
 tap "heroku/brew"
 tap "microsoft/apm"
-tap "modem-dev/tap"
 tap "protonpass/tap"
 
-# Dotfiles management & secrets
-brew "chezmoi"
-brew "protonpass/tap/pass-cli"
-
-# Shell & prompt
-brew "fish"
+# Trust only the specific third-party formulae used by this setup.
+brew "protonpass/tap/pass-cli", trusted: true
 brew "starship"
-brew "zoxide"
-brew "atuin"
-brew "direnv"
-
-# Editors
-brew "neovim"
-brew "vim"
-brew "helix"
-
-# Version control
-brew "git"
-brew "gh"
 brew "lazygit"
 brew "jj"
 brew "jjui"
 brew "tuicr"
-
-# Runtimes & toolchains
 brew "mise"
 brew "bun"
-brew "openjdk"
-
-# Containers — colima provides the Linux VM the Docker CLI talks to on macOS
-brew "docker"
-brew "docker-compose"
-if OS.mac?
-  brew "colima"
-end
-
-# CLI tools
-brew "ripgrep"
-brew "fd"
-brew "jq"
-brew "imagemagick"
 brew "portless"
 brew "herdr"
 brew "opencode"
-brew "heroku/brew/heroku"
-brew "microsoft/apm/apm"
-brew "modem-dev/tap/hunk"
+brew "heroku/brew/heroku", trusted: true
+brew "microsoft/apm/apm", trusted: true
+brew "hunk"
 
-# GUI apps & fonts (macOS only — Homebrew casks don't exist on Linux)
+# On Fedora, install the equivalents manually from packages-fedora.txt.
+# Other Linux distributions must supply these tools through their own packages.
 if OS.mac?
+  brew "chezmoi"
+  brew "fish"
+  brew "zoxide"
+  brew "atuin"
+  brew "direnv"
+  brew "neovim"
+  brew "helix"
+  brew "git"
+  brew "gh"
+  brew "ripgrep"
+  brew "fd"
+  brew "jq"
+  brew "imagemagick"
+
+  # Linux containers use a separately configured native engine (see README).
+  brew "docker"
+  brew "docker-compose"
+  brew "colima"
+
+  # GUI apps and fonts: Homebrew casks are macOS-only.
   cask "claude-code@latest"
   cask "codex"
   cask "crisp"

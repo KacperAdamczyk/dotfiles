@@ -11,11 +11,6 @@ end
 set -gx EDITOR hx
 set -gx VISUAL hx
 
-# Java (Homebrew's openjdk is keg-only)
-if set -q HOMEBREW_PREFIX; and test -d $HOMEBREW_PREFIX/opt/openjdk/bin
-    fish_add_path $HOMEBREW_PREFIX/opt/openjdk/bin
-end
-
 {{ if $colimaDrive -}}
 # Containers — keep colima's VM, and with it every container image layer,
 # volume and build cache, on {{ $colimaDrive }} rather than the boot disk.

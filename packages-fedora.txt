@@ -1,0 +1,40 @@
+# Fedora package reference: install manually with sudo dnf install <names>.
+# No script consumes this file, and chezmoi never installs DNF packages.
+# Names checked against this machine's cached Fedora 44 repository metadata.
+
+# Homebrew bootstrap (also install the development-tools group; see README)
+gcc
+make
+procps-ng
+curl
+file
+
+# Dotfiles, shell, and editors
+chezmoi
+fish
+zoxide
+atuin
+direnv
+neovim
+helix
+
+# Version control and utilities
+git
+gh
+ripgrep
+fd-find
+jq
+ImageMagick
+
+# Already installed here via RPM; may require your existing third-party repo.
+# Not present in the available cached Fedora repo metadata checked here.
+ghostty
+
+# Optional native container setup (already using Podman on this machine).
+# Install these if using Podman; Docker Engine is a separate alternative.
+# podman
+# podman-compose
+
+# Keep the remaining tools in Brewfile, including starship, lazygit, jj,
+# jjui, mise, bun, tuicr, portless, herdr, opencode, pass-cli, heroku, apm, hunk.
+# Nerd Fonts and other GUI apps need separate Linux installations (see README).
