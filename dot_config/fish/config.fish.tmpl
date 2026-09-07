@@ -2,7 +2,7 @@
 # Homebrew (Apple Silicon, Intel mac, Linux)
 for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew
     if test -x $brew_bin
-        $brew_bin shellenv | source
+        $brew_bin shellenv fish | source
         break
     end
 end
@@ -11,13 +11,13 @@ end
 set -gx EDITOR hx
 set -gx VISUAL hx
 
-{{ if $colimaDrive -}}
+{{ if and (eq .chezmoi.os "darwin") $colimaDrive -}}
 # Containers — keep colima's VM, and with it every container image layer,
 # volume and build cache, on {{ $colimaDrive }} rather than the boot disk.
 # Falls back to the default ~/.colima when that drive is not mounted, so a
 # detached drive degrades to a separate empty VM rather than a broken one.
 if test -d {{ $colimaDrive | quote }}
-    set -gx COLIMA_HOME {{ $colimaDrive }}/colima
+    set -gx COLIMA_HOME {{ printf "%s/colima" $colimaDrive | quote }}
 end
 
 {{ end -}}

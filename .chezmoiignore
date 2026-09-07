@@ -2,9 +2,8 @@ README.md
 Brewfile
 packages-fedora.txt
 
-{{ if not (dig "colima" "drive" "" .) -}}
-# No external drive configured on this machine — colima uses its default
-# ~/.colima, so the wrapper that points it elsewhere would be misleading.
+{{ if or (ne .chezmoi.os "darwin") (not (dig "colima" "drive" "" .)) -}}
+# Colima is macOS-only; its wrapper also requires an external drive.
 .config/fish/functions/colima-start.fish
 {{ end -}}
 
@@ -12,6 +11,8 @@ packages-fedora.txt
 # The managed block in ~/.ssh/config sets UseKeychain, an Apple-only keyword
 # that makes ssh elsewhere exit with "Bad configuration option".
 .ssh/config
+# Linux manages its own container engine and Compose plugins.
+.docker/config.json
 {{ end -}}
 
 {{ if not (dig "protonpass" "sshKeyItem" "" .) -}}

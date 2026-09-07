@@ -17,7 +17,7 @@ key it already has and never talks to Proton Pass. It lives here rather than in
 the repo because the IDs are specific to one Proton account. */ -}}
 
 {{- $colimaDrive := dig "colima" "drive" "" (dig "config" "data" dict .chezmoi) -}}
-{{- if not $colimaDrive -}}
+{{- if and (eq .chezmoi.os "darwin") (not $colimaDrive) -}}
 {{-   $colimaDrive = promptString "colima.drive (external drive for container image storage, e.g. /Volumes/Data; blank for ~/.colima)" "" -}}
 {{- end -}}
 
