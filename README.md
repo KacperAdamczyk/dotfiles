@@ -1,13 +1,17 @@
 # dotfiles
 
 Cross-platform (macOS + Linux) dotfiles, managed with [chezmoi](https://www.chezmoi.io/).
-All packages are installed with [Homebrew](https://brew.sh/) from the [`Brewfile`](Brewfile).
+macOS packages and shared CLI tools are installed with [Homebrew](https://brew.sh/)
+from the [`Brewfile`](Brewfile). On Fedora, install distro packages manually using
+[`packages-fedora.txt`](packages-fedora.txt) as a reference. No DNF installation
+runs automatically. Other Linux distributions must supply equivalent packages.
 
 ## Layout
 
 | Path | Purpose |
 | --- | --- |
-| `Brewfile` | All packages: taps, formulae, and (macOS-only) casks |
+| `Brewfile` | Shared Homebrew tools and macOS-only formulae/casks |
+| `packages-fedora.txt` | Manual Fedora package reference; never installed automatically |
 | `run_onchange_before_install-packages.sh.tmpl` | Runs `brew bundle` automatically whenever the Brewfile changes |
 | `dot_config/` | Files applied to `~/.config/` (fish, git, jj, starship, ghostty, mise) |
 | `private_dot_ssh/` | The `~/.ssh/config` block, and the SSH key fetched from Proton Pass |
@@ -15,7 +19,25 @@ All packages are installed with [Homebrew](https://brew.sh/) from the [`Brewfile
 
 ## Fresh system setup
 
-### 1. Install Homebrew
+### 1. Install Fedora prerequisites and Homebrew
+
+On Fedora, review `packages-fedora.txt` and install the tools you want manually
+with `sudo dnf install <package names>`. Install Fish and Helix before using the
+shell configuration: it sets `EDITOR` and `VISUAL` to `hx`. Ghostty is already
+RPM-installed on the current machine but was not in the cached available repo
+metadata; a fresh machine may need the same third-party repository first.
+
+Homebrew also needs the Fedora development tools:
+
+```sh
+sudo dnf group install development-tools
+sudo dnf install procps-ng curl file git
+```
+
+See [Homebrew's Linux prerequisites](https://docs.brew.sh/Homebrew-on-Linux).
+These commands are manual setup steps, not chezmoi hooks.
+
+### Install Homebrew
 
 macOS and Linux use the same installer:
 
@@ -25,24 +47,42 @@ macOS and Linux use the same installer:
 
 On Linux it installs to `/home/linuxbrew/.linuxbrew`; the installer prints an
 `eval "$(... shellenv)"` line — run it once in the current shell so `brew` is on `PATH`.
-(On Linux you may first need build essentials: `sudo apt-get install build-essential curl file git`.)
+The package hook fails if `brew` is missing from PATH. After installing it and
+setting up the current shell environment, rerun `chezmoi apply`.
 
 ### 2. Install chezmoi and apply the dotfiles
 
+Install chezmoi with `brew install chezmoi` on macOS or `sudo dnf install chezmoi`
+on Fedora, then:
+
 ```sh
-brew install chezmoi
 chezmoi init --apply KacperAdamczyk
 ```
 
 This clones the repo to `~/.local/share/chezmoi`, runs `brew bundle` (installing
-everything in the Brewfile), and writes all the config files into `~/.config`.
+the entries enabled for your OS), and writes the managed configuration files.
+It does not install anything from `packages-fedora.txt`.
+
+If retrieving an SSH key from Proton Pass, install `protonpass/tap/pass-cli`
+with Brew and run `pass-cli login` before applying: secret templates need the
+CLI and an authenticated session. Leave the item reference blank to use a local key.
 
 ### 3. Make fish the login shell
+
+On macOS (from a POSIX shell):
 
 ```sh
 echo "$(brew --prefix)/bin/fish" | sudo tee -a /etc/shells
 chsh -s "$(brew --prefix)/bin/fish"
 ```
+
+On Fedora, after manually installing Fish:
+
+```sh
+chsh -s /usr/bin/fish
+```
+
+Log out and back in for the login-shell change to take effect.
 
 ### 4. macOS-only / Linux-only notes
 
@@ -50,8 +90,14 @@ chsh -s "$(brew --prefix)/bin/fish"
   On Linux, install the equivalents through your distro's package manager:
   - Claude Code: `curl -fsSL https://claude.ai/install.sh | bash`
   - Ghostty, Nerd Fonts: distro packages or upstream releases
-- **Containers**: the `docker` CLI installs everywhere, but on macOS it needs a
-  Linux VM behind it — `colima` (macOS only) provides one.
+- **Linux containers**: this machine already has Podman. For that workflow,
+  install `podman` and optionally `podman-compose` manually, then use `podman`
+  commands. Docker Engine is an alternative that needs its own installation and
+  service setup. The Linux Brewfile installs neither Docker nor Compose, and
+  chezmoi leaves `~/.docker/config.json` alone on Linux.
+- **macOS containers**: Homebrew installs Docker CLI, Compose, and Colima,
+  which provides the Linux VM. The drive prompt, Fish environment block, and
+  `colima-start` helper are all macOS-only.
   - Which drive holds the VM is **per-machine**, not baked into the repo. The
     answer lives in `~/.config/chezmoi/chezmoi.toml` as `colima.drive`, written
     by `chezmoi init` from `.chezmoi.toml.tmpl` and never committed here.
@@ -86,8 +132,8 @@ chsh -s "$(brew --prefix)/bin/fish"
     credentials never enter this repo.
 - **Git signing** expects an SSH key at `~/.ssh/id_ed25519` — generate one with
   `ssh-keygen -t ed25519` and add it to GitHub as a *signing* key.
-  - If that key has a passphrase, hand it to the login keychain **once** per
-    machine:
+  - **On macOS**, if that key has a passphrase, hand it to the login keychain
+    once per machine:
 
     ```sh
     ssh-add --apple-use-keychain ~/.ssh/id_ed25519
@@ -96,7 +142,14 @@ chsh -s "$(brew --prefix)/bin/fish"
     Nothing needs `ssh-add` after that, reboots included: `config.fish` runs
     `ssh-add --apple-load-keychain` on the first interactive shell, which
     re-adds every keychain-backed key to the agent.
-  - That shell hook is the part that makes *signing* work, not the
+  - **On Linux**, load the key into your session's SSH agent with
+    `ssh-add ~/.ssh/id_ed25519` and check it with `ssh-add -l`. If no agent is
+    available, start one for the current Fish session with
+    `ssh-agent -c | source` first. This lasts for that agent's lifetime; for
+    persistence across logins, configure your desktop/session agent separately.
+    No Apple keychain commands run on Linux, and this repo does not start an
+    agent automatically. Git and jj signing require the key before committing.
+  - That macOS shell hook is the part that makes *signing* work, not the
     `~/.ssh/config` block. Git signs by shelling out to `ssh-keygen`, which
     never reads `ssh_config` and so cannot reach `UseKeychain` on its own — it
     needs the key already sitting in the agent, or it prompts for the
@@ -150,7 +203,7 @@ chsh -s "$(brew --prefix)/bin/fish"
     because the IDs belong to one Proton account. Leave it blank and the key
     templates are ignored entirely — same shape as `colima.drive`.
   - The passphrase is *not* in the vault, only the encrypted key file is. On a
-    fresh machine you still need it once, for `ssh-add --apple-use-keychain`,
+    fresh machine you still need it for `ssh-add` (with `--apple-use-keychain` on macOS),
     so keep it somewhere in Proton Pass too.
 - **Verifying signatures** needs `gpg.ssh.allowedSignersFile`, which points at
   `dot_config/git/allowed_signers` — a plain committed file, since public keys
@@ -175,6 +228,14 @@ chezmoi apply                             # apply configs + brew bundle (if Brew
 chezmoi cd                                # cd into this repo
 ```
 
-Add a package: add it to the `Brewfile`, then `chezmoi apply`.
+Add a Homebrew package: add it to the `Brewfile`, then `chezmoi apply`.
+Add a Fedora package: record it in `packages-fedora.txt` and install it manually.
+Keep its Brew entry macOS-only to avoid requesting a second copy on Linux.
+Homebrew may still install its own dependencies, even when DNF provides them.
+Removing a Fedora entry does not uninstall the package.
+
+Hunk now uses the core `hunk` formula. On a machine with the old tap version,
+manually run `brew uninstall modem-dev/tap/hunk` before the next bundle run;
+see [upstream migration guidance](https://github.com/modem-dev/hunk#install).
 Adopt an existing dotfile: `chezmoi add ~/.config/<file>`.
 Remove packages that are no longer in the Brewfile: `brew bundle cleanup --file "$(chezmoi source-path)/Brewfile"` (add `--force` to actually uninstall).
