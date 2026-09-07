@@ -13,6 +13,7 @@ runs automatically. Other Linux distributions must supply equivalent packages.
 | `Brewfile` | Shared Homebrew tools and macOS-only formulae/casks |
 | `packages-fedora.txt` | Manual Fedora package reference; never installed automatically |
 | `run_onchange_before_install-packages.sh.tmpl` | Runs `brew bundle` automatically whenever the Brewfile changes |
+| `run_onchange_after_install-runtimes.sh.tmpl` | Installs global mise runtimes after applying configuration, whenever the mise config changes |
 | `dot_config/` | Files applied to `~/.config/` (fish, git, jj, starship, ghostty, mise) |
 | `private_dot_ssh/` | The `~/.ssh/config` block, and the SSH key fetched from Proton Pass |
 | `.chezmoiignore` | Files that live in the repo but are never applied to `$HOME` |
@@ -62,6 +63,14 @@ chezmoi init --apply KacperAdamczyk
 This clones the repo to `~/.local/share/chezmoi`, runs `brew bundle` (installing
 the entries enabled for your OS), and writes the managed configuration files.
 It does not install anything from `packages-fedora.txt`.
+
+After writing the configuration, chezmoi runs `mise install` for the global
+Node/pnpm configuration. The hook excludes project configs and runs on the first
+apply, then whenever the managed mise config or hook changes. Failed installs
+stop the apply and are retried on the next apply. With `latest` versions, a hook
+run resolves the requested versions; unchanged applies do not perform updates.
+To install missing runtimes again without changing the config, run
+`MISE_CEILING_PATHS="$HOME" mise --cd "$HOME" install` manually.
 
 If retrieving an SSH key from Proton Pass, install `protonpass/tap/pass-cli`
 with Brew and run `pass-cli login` before applying: secret templates need the

@@ -1,0 +1,24 @@
+#!/bin/sh
+# Install global runtimes after Homebrew and the managed mise config are applied.
+# mise config hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+set -eu
+
+mise_bin=$(command -v mise || true)
+if [ -z "$mise_bin" ]; then
+    for candidate in /opt/homebrew/bin/mise /usr/local/bin/mise /home/linuxbrew/.linuxbrew/bin/mise; do
+        if [ -x "$candidate" ]; then
+            mise_bin=$candidate
+            break
+        fi
+    done
+fi
+
+if [ -z "$mise_bin" ]; then
+    echo "error: mise is required; install the Brewfile dependencies, then rerun chezmoi apply" >&2
+    exit 1
+fi
+
+# Exclude project configs, including any mise.toml in the home directory.
+export MISE_GLOBAL_CONFIG_FILE="{{ .chezmoi.homeDir }}/.config/mise/config.toml"
+export MISE_CEILING_PATHS="{{ .chezmoi.homeDir }}"
+exec "$mise_bin" --cd "{{ .chezmoi.homeDir }}" install --yes
