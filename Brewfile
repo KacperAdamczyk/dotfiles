@@ -48,6 +48,7 @@ if OS.mac?
   cask "crisp"
   cask "ghostty"
   cask "grok-build"
+  cask "homebrew-app"
   cask "font-monaspice-nerd-font"
   cask "font-fira-code-nerd-font"
   cask "font-jetbrains-mono-nerd-font"
