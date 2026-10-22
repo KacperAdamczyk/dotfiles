@@ -36,6 +36,7 @@ if OS.mac?
   brew "fd"
   brew "jq"
   brew "imagemagick"
+  brew "mole"
 
   # Linux containers use a separately configured native engine (see README).
   brew "docker"
