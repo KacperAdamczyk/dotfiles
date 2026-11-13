@@ -25,6 +25,7 @@ ripgrep
 fd-find
 jq
 ImageMagick
+ffmpeg-free
 
 # Already installed here via RPM; may require your existing third-party repo.
 # Not present in the available cached Fedora repo metadata checked here.

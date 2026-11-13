@@ -13,7 +13,8 @@ Use **Bash** for the commands below (`bash` starts it from another shell).
 ```bash
 sudo dnf group install development-tools
 sudo dnf install gcc make procps-ng curl file git chezmoi \
-  fish zoxide atuin direnv neovim helix gh ripgrep fd-find jq ImageMagick
+  fish zoxide atuin direnv neovim helix gh ripgrep fd-find jq ImageMagick \
+  ffmpeg-free
 ```
 
 Install Ghostty separately using its [Linux installation guide](https://ghostty.org/docs/install/binary#fedora).
